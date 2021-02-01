@@ -1,0 +1,100 @@
+
+1. search books by their title, author, subject category as well by the publication date.
+
+Complete serach system books
+
+2. Each book will have a unique identification number and rack number
+3. One book can have multiple copy, we should keep track of that.
+
+4. Books taken by a particular member and which particular member has taken which books.
+
+5. Maximum limit on no of books and no of days it can be kept by a member
+
+6. System will collect fine for due dates.
+7. Book reservation for any book
+8. Notification system for reservred book when available and not return by due date
+9. Each book and member should have a unique barcode number
+
+
+
+1. -------------------
+Actors:-
+
+Member, admin,   //System //
+Actors :-
+
+1. name
+2. id
+4. age
+5. location
+6. mem_barcode
+
+Member
+1. Actor
+2. status // active/ blocked
+
+admin
+1. Actors
+
+2. ------------------------
+
+Books
+
+Book
+1. title
+2. author
+3. publishion date
+4. barcode
+5. unique identification number
+6. category
+
+
+
+Catalog
+
+Map<Book, integer,>
+
+1. addBook()
+2. RemoveBook()
+3. EditBook()
+
+get domain/books ? id =""
+put domain/book/id
+
+
+
+
+4. searchBook()
+5. isAvailable()
+
+
+BookReservation
+
+reserveBook()
+renewBook()
+returnBook()
+
+
+----------------
+Membership
+
+ArrayList<Members, ArrayList<Books>>
+addMembership()
+removeMembership()
+updateMembership()
+Notification
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
