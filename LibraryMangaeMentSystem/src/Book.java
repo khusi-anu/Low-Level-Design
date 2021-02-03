@@ -1,6 +1,6 @@
 public class Book {
     private String title;
-    private String barCodeNo;
+    private String ISBNNo;
     private String subject;
     private String publisher;
     private Author author;
@@ -8,7 +8,7 @@ public class Book {
 
     public Book(String title, String barCodeNo, String subject, String publisher, Author author, String language) {
         this.title = title;
-        this.barCodeNo = barCodeNo;
+        this.ISBNNo = ISBNNo;
         this.subject = subject;
         this.publisher = publisher;
         this.author = author;

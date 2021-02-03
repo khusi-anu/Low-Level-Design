@@ -1,3 +1,6 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 abstract public class Account {
     private String barCode;
     private Address address;
@@ -40,7 +43,15 @@ public class MemberAccount extends Account {
         this.noOfBooksBorrowed = 0;
     }
 
-    public ReservationStatus borrowBook(BookItem item) {
+    public ReservationStatus borrowBook(Library library, BookItem item) {
+        if(!library.isMember(this))
+            return ReservationStatus.CANCELLED;
+
+        BookCatalog bc = library.getBookCatalog();
+        if(!bc.isBookItemAvailable(item))
+            return ReservationStatus.CANCELLED;
+
+        bc.removeBookItem(item);
 
     }
 
@@ -61,20 +72,25 @@ public class AdminAccount extends MemberAccount {
         super(barCode, address, name, age, dateOfMembership);
     }
 
-    public int addBookItem() {
+    public void addBook(){
 
     }
-
-    public boolean removeBookItem(BookItem bookItem) {
-
+    public void addBookItem(BookItem bookItem, Library library) {
+        BookCatalog bc = library.getBookCatalog();
+        bc.addBookItem(bookItem);
     }
 
-    public int addMember(MemberAccount account) {
-
+    public void removeBookItem(BookItem bookItem, Library library) {
+        BookCatalog bc = library.getBookCatalog();
+        bc.removeBookItem(bookItem);
     }
 
-    public boolean removeMember(MemberAccount account) {
+    public int addMember(Library library, MemberAccount account) {
+        library.addMembers(account);
+    }
 
+    public boolean removeMember(Library library, MemberAccount account) {
+        library.removeMembers(account);
     }
 
 }
