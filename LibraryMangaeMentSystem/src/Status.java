@@ -9,7 +9,8 @@ enum AccountStatus {
         WAITING,
         PENDING,
         COMPLETED,
-        CANCELLED
+        CANCELLED,
+        UNRESERVED
     }
 
     enum BookStatus {

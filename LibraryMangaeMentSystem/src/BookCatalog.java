@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 interface Search
 {
@@ -9,15 +10,20 @@ interface Search
 }
 public class BookCatalog implements Search
 {
-    BookCatalog()
-    {
 
-    }
     private ArrayList<BookItem> bookItems;
     private HashMap<Book, Integer> countBooks;
     private HashMap<String, ArrayList<Book>> titleBook, subjectBook;
     private HashMap<Author, ArrayList<Book>> authorBook;
 
+    BookCatalog()
+    {
+        bookItems = new ArrayList<>();
+        countBooks = new HashMap<>();
+        titleBook = new HashMap<>();
+        subjectBook = new HashMap<>();
+        authorBook = new HashMap<>();
+    }
     public void addBookItem(BookItem bookItem)
     {
         bookItems.add(bookItem);
@@ -27,12 +33,28 @@ public class BookCatalog implements Search
         bookItems.remove(bookItem);
     }
 
+    public void updateCatalog(boolean isBorrow, BookItem bookItem)
+    {
+        String isbn = bookItem.getISBNNo();
+        countBooks.forEach((book, integer) -> {
+            String curr_isbn = book.getISBNNo();
+            if (curr_isbn == isbn) {
+                int value = countBooks.get(book);
+                if(isBorrow)
+                    countBooks.put(book, value - 1);
+                else
+                    countBooks.put(book, value + 1);
+                return;
+            }
+        });
+
+    }
     public void addBook(Book book) {
         if (countBooks.containsKey(book))
         {
             int value = countBooks.get(book);
             countBooks.put(book, value + 1);
-         }
+        }
         else
             countBooks.put(book, 1);
 
@@ -106,8 +128,21 @@ public class BookCatalog implements Search
     }
 
 
-    public boolean isBookItemAvailable(BookItem bookitem)
+    public boolean isBookAvailable(BookItem bookitem)
     {
-        return bookItems.contains(bookitem);
+        AtomicBoolean isPresent = new AtomicBoolean(false);
+        String isbn = bookitem.getISBNNo();
+        countBooks.forEach((book, integer) -> {
+            String curr_isbn = book.getISBNNo();
+            if (curr_isbn == isbn) {
+                int value = countBooks.get(book);
+                if (value == 0)
+                    isPresent.set(false);
+                else
+                    isPresent.set(true);
+
+            }
+        });
+        return isPresent.get();
     }
 }

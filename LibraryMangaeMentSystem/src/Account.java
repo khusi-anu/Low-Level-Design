@@ -1,7 +1,8 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Date;
 
-abstract public class Account {
+abstract class Account {
     private String barCode;
     private Address address;
     private String name;
@@ -32,7 +33,7 @@ abstract public class Account {
 }
 
 
-public class MemberAccount extends Account {
+class MemberAccount extends Account {
 
     private String dateOfMembership;
     private int noOfBooksBorrowed;
@@ -48,25 +49,43 @@ public class MemberAccount extends Account {
             return ReservationStatus.CANCELLED;
 
         BookCatalog bc = library.getBookCatalog();
-        if(!bc.isBookItemAvailable(item))
+        if(!bc.isBookAvailable(item))
             return ReservationStatus.CANCELLED;
 
         bc.removeBookItem(item);
-
+        bc.updateCatalog(true, item);
+        item.getReservation().setStatus(ReservationStatus.COMPLETED);
+        item.getReservation().setDayOfBooking(new Date());
+        item.setStatus(BookStatus.RESERVED);
+        return ReservationStatus.COMPLETED;
     }
 
-    public boolean returnBook(BookItem item) {
+    public ReservationStatus returnBook(Library library, BookItem item) {
+        if(!library.isMember(this))
+            return ReservationStatus.CANCELLED;
 
+        BookCatalog bc = library.getBookCatalog();
+        if(!bc.isBookAvailable(item))
+            return ReservationStatus.CANCELLED;
+
+        bc.removeBookItem(item);
+        bc.updateCatalog(false, item);
+        int fine = item.getReservation().calculateFine();
+        System.out.println("Your fine is " + fine);
+        item.getReservation().setStatus(ReservationStatus.UNRESERVED);
+        return ReservationStatus.COMPLETED;
     }
 
-    public ReservationStatus renewBook(BookItem item) {
-
+    public ReservationStatus renewBook(Library library, BookItem item) {
+        returnBook(library, item);
+        borrowBook(library, item);
+        return ReservationStatus.COMPLETED;
     }
 
 
 }
 
-public class AdminAccount extends MemberAccount {
+class AdminAccount extends MemberAccount {
 
     public AdminAccount(String barCode, Address address, String name, String age, String dateOfMembership) {
         super(barCode, address, name, age, dateOfMembership);
@@ -85,11 +104,11 @@ public class AdminAccount extends MemberAccount {
         bc.removeBookItem(bookItem);
     }
 
-    public int addMember(Library library, MemberAccount account) {
+    public void addMember(Library library, MemberAccount account) {
         library.addMembers(account);
     }
 
-    public boolean removeMember(Library library, MemberAccount account) {
+    public void removeMember(Library library, MemberAccount account) {
         library.removeMembers(account);
     }
 

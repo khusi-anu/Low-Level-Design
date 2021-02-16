@@ -7,6 +7,7 @@ public class BookReservation {
     BookReservation()
     {
          dayOfBooking = new Date();
+         status = ReservationStatus.UNRESERVED;
     }
     BookReservation(Date date)
     {
@@ -23,4 +24,11 @@ public class BookReservation {
         return fine;
     }
 
+    public void setStatus(ReservationStatus status) {
+        this.status = status;
+    }
+
+    public void setDayOfBooking(Date dayOfBooking) {
+        this.dayOfBooking = dayOfBooking;
+    }
 }

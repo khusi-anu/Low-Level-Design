@@ -6,6 +6,14 @@ public class Book {
     private Author author;
     private String language;
 
+    public String getISBNNo() {
+        return ISBNNo;
+    }
+
+    public void setISBNNo(String ISBNNo) {
+        this.ISBNNo = ISBNNo;
+    }
+
     public Book(String title, String barCodeNo, String subject, String publisher, Author author, String language) {
         this.title = title;
         this.ISBNNo = ISBNNo;
@@ -19,9 +27,6 @@ public class Book {
         return title;
     }
 
-    public String getBarCodeNo() {
-        return barCodeNo;
-    }
 
     public String getSubject() {
         return subject;
@@ -43,9 +48,6 @@ public class Book {
         this.title = title;
     }
 
-    public void setBarCodeNo(String barCodeNo) {
-        this.barCodeNo = barCodeNo;
-    }
 
     public void setSubject(String subject) {
         this.subject = subject;

@@ -1,0 +1,130 @@
+
+Ticket
+String id
+Vehicle v
+ParkingSpot p
+ParkingFloor floor
+Time time
+
+Vehicle
+String type
+String vno
+
+===========================================
+
+Parking :
+
+ArrayList<Admin>
+String name
+String id
+ArrayList<ParkingFloor>
+
+===========================================
+
+ParkingFloor :
+
+int floor_no
+ArrayList<ParkingAttendant>
+ArrayList<ParkingSpot>
+
+==========================================
+
+ParkingSpot :
+
+String number
+ArrayList<Vehicle>
+String type
+int capacity
+
+bool isSpotAvailable()
+String addVehicle(Vehicle v)
+String giveSpotNumber(Vehicle v)
+
+
+===========================================
+
+Transaction :
+
+String cardType
+
+void calculateFare(Ticket ticket)
+void creditTransaction()
+void cashTransaction()
+
+===========================================
+
+abstract class Account :
+
+String name
+String id
+
+
+ParkingAttendant :
+
+void checkTicket()
+void doTransaction()
+void allocateSpot()
+
+
+Admin :
+
+add parkingfloors()
+update parkingfloors()
+remove parkignFloors()
+
+add parkingspts()
+update parkingSpots()
+remove parkingSpots()
+
+add parkingAttendant()
+update parkingAttendant()
+remove parkingAttendant()
+
+
+Customer:
+
+Vehicle v
+void parkVehicle()
+void buyTicket()
+
+===========================================
+
+Database :
+
+HashMap<Parkingfloor, ParkingSpot>
+HashMap<ParkingSpot, Vehicle>
+
+System :
+
+Database db
+void displayInfo(parkinggFloor)
+void removeVehicle()
+ParkingSpot assignVehicle()
+
+
+===========================================
+
+TransactionStatus
+{
+    PENDING,
+    COMPLETED
+    FAILED
+}
+
+ParkingStatus
+{
+    AVAILABLE
+    UNAVAILABLE
+    ACTIVE
+    INACTIVE
+}
+
+VehicleType
+{
+    CAR,
+    BIKE,
+    ENFIELD,
+    TRUCK,
+    CYCLE,
+
+}
